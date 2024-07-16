@@ -27,6 +27,11 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "XL")
   set(HPTT_CXX_FLAGS ${HPTT_CXX_FLAGS} -qsmp=omp)
 endif()
 
+# FIX: -O3 takes multiple minutes to compile with GCC
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set(HPTT_CXX_FLAGS ${HPTT_CXX_FLAGS} -O2)
+endif()
+
 if(ENABLE_AVX)
   set(HPTT_CXX_FLAGS ${HPTT_CXX_FLAGS} -mavx -DHPTT_ARCH_AVX)
 elseif(ENABLE_ARM)
@@ -42,11 +47,6 @@ target_compile_features(hptt PUBLIC cxx_std_11)
 target_include_directories(hptt PUBLIC ${PROJECT_SOURCE_DIR}/include)
 #target_compile_definitions(hptt PRIVATE ${HPTT_CXX_COMPILE_DEFS})
 target_compile_options(hptt PUBLIC ${HPTT_CXX_FLAGS})
-
-# FIX: -O3 takes multiple minutes to compile with GCC
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(HPTT_CXX_FLAGS ${HPTT_CXX_FLAGS} -O2)
-endif()
 
 install(TARGETS hptt
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
