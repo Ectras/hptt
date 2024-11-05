@@ -104,7 +104,7 @@
  * Before running the benchmark, please modify the number of threads and the thread
  * affinity within the benchmark.sh file. To run the benchmark just use:
  * 
- *     ./benshmark.sh
+ *     ./benchmark.sh
  * 
  * This will create hptt_benchmark.dat file containing all the runtime information
  * of HPTT and the reference implementation.
