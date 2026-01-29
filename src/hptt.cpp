@@ -20,11 +20,11 @@
 namespace hptt {
    
 static hptt::FloatComplex toFloatComplex(const float _Complex c) {
-   return hptt::FloatComplex(crealf(c), cimagf(c));
+   return hptt::FloatComplex(__real__ c, __imag__ c);
 }
 
 static hptt::DoubleComplex toDoubleComplex(const double _Complex c) {
-   return hptt::DoubleComplex(creal(c), cimag(c));
+   return hptt::DoubleComplex(__real__ c, __imag__ c);
 }
 
 std::shared_ptr<hptt::Transpose<float> > create_plan( const int *perm, const int dim,
