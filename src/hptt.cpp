@@ -18,6 +18,14 @@
 #include <transpose.h>
 
 namespace hptt {
+   
+static hptt::FloatComplex toFloatComplex(const float _Complex c) {
+   return hptt::FloatComplex(crealf(c), cimagf(c));
+}
+
+static hptt::DoubleComplex toDoubleComplex(const double _Complex c) {
+   return hptt::DoubleComplex(creal(c), cimag(c));
+}
 
 std::shared_ptr<hptt::Transpose<float> > create_plan( const int *perm, const int dim,
                   const float alpha, const float *A, const int *sizeA, const int *outerSizeA, 
@@ -176,7 +184,7 @@ void cTensorTranspose( const int *perm, const int dim,
                  const int numThreads, const int useRowMajor)
 {
    auto plan(std::make_shared<hptt::Transpose<hptt::FloatComplex> >(sizeA, perm, outerSizeA, outerSizeB, dim, 
-                         (const hptt::FloatComplex*) A, (hptt::FloatComplex) alpha, (hptt::FloatComplex*) B, (hptt::FloatComplex) beta, hptt::ESTIMATE, numThreads, nullptr, useRowMajor));
+                         (const hptt::FloatComplex*) A, hptt::toFloatComplex(alpha), (hptt::FloatComplex*) B, hptt::toFloatComplex(beta), hptt::ESTIMATE, numThreads, nullptr, useRowMajor));
    plan->setConjA(conjA);
    plan->execute();
 }
@@ -187,7 +195,7 @@ void zTensorTranspose( const int *perm, const int dim,
                  const int numThreads, const int useRowMajor)
 {
    auto plan(std::make_shared<hptt::Transpose<hptt::DoubleComplex> >(sizeA, perm, outerSizeA, outerSizeB, dim, 
-                         (const hptt::DoubleComplex*) A, (hptt::DoubleComplex) alpha, (hptt::DoubleComplex*) B, (hptt::DoubleComplex) beta, hptt::ESTIMATE, numThreads, nullptr, useRowMajor));
+                         (const hptt::DoubleComplex*) A, hptt::toDoubleComplex(alpha), (hptt::DoubleComplex*) B, hptt::toDoubleComplex(beta), hptt::ESTIMATE, numThreads, nullptr, useRowMajor));
    plan->setConjA(conjA);
    plan->execute();
 }
